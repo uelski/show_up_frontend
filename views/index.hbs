@@ -1,0 +1,32 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+  <a href="/new">New Show</a>
+<div class="listing">
+
+</div>
+
+<script type="text/template" id="show-list-template">
+  <div class="container>"
+      <% _.each(shows, function(show){ %>
+        <article>
+          <p><%= show.get('title') %></p>
+          <p><%= show.get('date') %></p>
+          <p><a href="/bands/<%=show.get('band_id')%>"><%= show.get('band_id') %></a></p>
+          <p><%= show.get('venue_id') %></p>
+        </article>
+    <%  }); %>
+  </div>
+</script>
+<script type="text/template" id="new-show-template">
+  <form class="new-show-form">
+    <label>Title</label>
+    <input name="title" type="text"></input>
+    <label>Date</label>
+    <input name="date" type="date"></input>
+    <label>Bands</label>
+    <input name="band_id" type="text"></input>
+    <label>Venue</label>
+    <input name='venue_id' type="text"></input>
+    <button type="submit">Submit</button>
+  </form>
+</script>

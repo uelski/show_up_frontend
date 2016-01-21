@@ -1,0 +1,38 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+
+<div class="band-listing">
+
+</div>
+
+<script type="text/template"id="band-list-template">
+  <a href="/bands/new">Register</a>
+  <table>
+  <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% _.each(bands, function(band){ %>
+        <tr>
+          <td><a href="bands/<%= band.get('id') %>"><%= band.get('band_name') %></td>
+        </tr>
+    <%  }); %>
+    </tbody>
+  </table>
+</script>
+
+<script type="text/template" id="new-band-template">
+  <form class="new-band-form">
+    <label>Name</label>
+    <input name="name" type="text"></input>
+    <label>Password</label>
+    <input name="password" type="password"></input>
+    <label>Password Confirmation</label>
+    <input name="password_confirmation" type="password"></input>
+    <label>Website</label>
+    <input name='website' type="text"></input>
+    <button type="submit">Submit</button>
+  </form>
+</script>
