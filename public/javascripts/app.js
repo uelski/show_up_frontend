@@ -38,15 +38,31 @@ $(document).ready(function() {
     urlRoot: '/shows'
   })
 
+  var Venues = Backbone.Collection.extend({
+    url: '/venues'
+  })
+
+  var Venue = Backbone.Model.extend({
+    urlRoot: '/venues'
+  })
+
+
   var ShowList = Backbone.View.extend({
     el: '.listing',
     render: function() {
       var that = this;
       var shows = new Shows();
+      var venues = new Venues();
+      console.log(shows);
+      console.log(venues);
+      venues.fetch({
+          success: function(venues) {
+          }
+        })
       shows.fetch({
         success: function(shows) {
           var template = _.template($('#show-list-template').html());
-          that.$el.html(template({'shows': shows.models}));
+          that.$el.html(template({'shows': shows.models, 'venues': venues.models}));
         }
       })
     }
@@ -137,8 +153,53 @@ $(document).ready(function() {
 
   Backbone.history.start({pushState: true});
 
+  $(function() {
+    var bands = new Bands();
+    var bandSearchList = [];
+    bands.fetch({
+      success: function(){
+        var bandList = bands.pluck('band_name')
+        for (var i = 0; i < bandList.length; i++) {
+          bandSearchList.push(bandList[i]);
+          console.log(bandSearchList);
+        }
+      }
+    });
 
 
+    $( "#first-band-name" ).autocomplete({
+      source: bandSearchList
+    });
+    $( "#second-band-name" ).autocomplete({
+      source: bandSearchList
+    });
+    $( "#third-band-name" ).autocomplete({
+      source: bandSearchList
+    });
+    $( "#fourth-band-name" ).autocomplete({
+      source: bandSearchList
+    });
+  });
+
+
+  $(function() {
+    var venues = new Venues();
+    var venueSearchList = [];
+    venues.fetch({
+      success: function(){
+        var venueList = venues.pluck('venue_name')
+        for (var i = 0; i < venueList.length; i++) {
+          venueSearchList.push(venueList[i]);
+          console.log(venueSearchList);
+        }
+      }
+    });
+
+
+    $( "#new-show-venue" ).autocomplete({
+      source: venueSearchList
+    });
+  });
 
 });// end of document.ready
 

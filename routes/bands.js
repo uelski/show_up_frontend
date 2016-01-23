@@ -16,4 +16,8 @@ router.get('/new', function(req, res, next) {
   res.render('band', {title: 'Show Up'});
 });
 
+router.get('/:id', function(req, res, next){
+  res.render('profile')
+})
+
 module.exports = router;
