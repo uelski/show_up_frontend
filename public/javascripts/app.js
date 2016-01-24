@@ -31,7 +31,7 @@ $(document).ready(function() {
   var bandList = new BandList();
 
   var Shows = Backbone.Collection.extend({
-    url: '/shows'
+    url: '/shows',
   })
 
   var Show = Backbone.Model.extend({
@@ -39,7 +39,8 @@ $(document).ready(function() {
   })
 
   var Venues = Backbone.Collection.extend({
-    url: '/venues'
+      url: '/venues',
+
   })
 
   var Venue = Backbone.Model.extend({
@@ -49,24 +50,42 @@ $(document).ready(function() {
 
   var ShowList = Backbone.View.extend({
     el: '.listing',
+    initialize: function() {
+      console.log('initialize shows');
+      this.collection = new Shows();
+      this.collection.on('sync', this.render, this);
+      this.collection.fetch();
+    },
     render: function() {
+      this.$el.html('');
       var that = this;
-      var shows = new Shows();
-      var venues = new Venues();
-      console.log(shows);
-      console.log(venues);
-      venues.fetch({
-          success: function(venues) {
-          }
+      var models = this.collection.models;
+      console.log(models);
+      for (var i = 0; i < models.length; i++) {
+        console.log(models[i]);
+        new ShowView({
+          model: models[i],
+          el: that.el,
         })
-      shows.fetch({
-        success: function(shows) {
-          var template = _.template($('#show-list-template').html());
-          that.$el.html(template({'shows': shows.models, 'venues': venues.models}));
-        }
-      })
+      }
     }
   });
+
+  var ShowView = Backbone.View.extend({
+    initialize: function() {
+      console.log('init showview')
+      this.template = _.template($('#show-list-template').html());
+      var data = this.model.attributes;
+      this.render();
+    },
+    render: function() {
+      console.log('rendering show');
+      var data = this.model.attributes;
+      var venues = new Venues();
+      console.log(venues.models);
+      this.$el.append(this.template(data, {'venues': venues.models}))
+    }
+  })
 
   var NewBandView = Backbone.View.extend({
     el: '.band-listing',
@@ -126,13 +145,19 @@ $(document).ready(function() {
         }
       });
 
-  var showList = new ShowList();
+
 
   var router = new Router();
   router.on('route:home', function(){
     console.log('router working')
+    var venues = new Venues();
+    $.when(venues.fetch()).done(function() {
+      console.log(venues);
+    var showList = new ShowList();
     showList.render();
     console.log('showlist render?');
+    })
+
   });
 
   router.on('route:new', function(){
@@ -161,7 +186,6 @@ $(document).ready(function() {
         var bandList = bands.pluck('band_name')
         for (var i = 0; i < bandList.length; i++) {
           bandSearchList.push(bandList[i]);
-          console.log(bandSearchList);
         }
       }
     });
@@ -190,7 +214,6 @@ $(document).ready(function() {
         var venueList = venues.pluck('venue_name')
         for (var i = 0; i < venueList.length; i++) {
           venueSearchList.push(venueList[i]);
-          console.log(venueSearchList);
         }
       }
     });
