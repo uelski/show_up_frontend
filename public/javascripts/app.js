@@ -1,10 +1,11 @@
 var app = app || {};
-
+app.show;
+app.shows;
 $(document).ready(function() {
 
-  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-      options.url = 'http://localhost:3000' + options.url;
-    });
+  // $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+  //     options.url = 'http://localhost:3000' + options.url;
+  //   });
 
   var Bands = Backbone.Collection.extend({
     url: '/bands'
@@ -30,62 +31,8 @@ $(document).ready(function() {
 
   var bandList = new BandList();
 
-  var Shows = Backbone.Collection.extend({
-    url: '/shows',
-  })
-
-  var Show = Backbone.Model.extend({
-    urlRoot: '/shows'
-  })
-
-  var Venues = Backbone.Collection.extend({
-      url: '/venues',
-
-  })
-
-  var Venue = Backbone.Model.extend({
-    urlRoot: '/venues'
-  })
 
 
-  var ShowList = Backbone.View.extend({
-    el: '.listing',
-    initialize: function() {
-      console.log('initialize shows');
-      this.collection = new Shows();
-      this.collection.on('sync', this.render, this);
-      this.collection.fetch();
-    },
-    render: function() {
-      this.$el.html('');
-      var that = this;
-      var models = this.collection.models;
-      console.log(models);
-      for (var i = 0; i < models.length; i++) {
-        console.log(models[i]);
-        new ShowView({
-          model: models[i],
-          el: that.el,
-        })
-      }
-    }
-  });
-
-  var ShowView = Backbone.View.extend({
-    initialize: function() {
-      console.log('init showview')
-      this.template = _.template($('#show-list-template').html());
-      var data = this.model.attributes;
-      this.render();
-    },
-    render: function() {
-      console.log('rendering show');
-      var data = this.model.attributes;
-      var venues = new Venues();
-      console.log(venues.models);
-      this.$el.append(this.template(data, {'venues': venues.models}))
-    }
-  })
 
   var NewBandView = Backbone.View.extend({
     el: '.band-listing',
@@ -150,13 +97,14 @@ $(document).ready(function() {
   var router = new Router();
   router.on('route:home', function(){
     console.log('router working')
-    var venues = new Venues();
-    $.when(venues.fetch()).done(function() {
-      console.log(venues);
+    // var venues = new Venues();
+    // var shows = new Shows();
+    // $.when(venues.fetch(), shows.fetch()).done(function() {
+    //   console.log(venues);
     var showList = new ShowList();
-    showList.render();
+    // showList.render();
     console.log('showlist render?');
-    })
+
 
   });
 
@@ -241,3 +189,62 @@ $.fn.serializeObject = function() {
       });
       return o;
     };
+
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        options.url = 'http://localhost:3000' + options.url;
+      });
+
+
+        var Shows = Backbone.Collection.extend({
+          url: '/shows'
+        })
+
+        var Show = Backbone.Model.extend({
+          urlRoot: '/shows'
+        })
+
+        var Venues = Backbone.Collection.extend({
+            url: '/venues'
+
+        })
+
+        var Venue = Backbone.Model.extend({
+          urlRoot: '/venues'
+        })
+        var ShowList = Backbone.View.extend({
+          el: '.listing',
+          initialize: function() {
+            var that = this;
+            console.log('initialize shows');
+            this.collection = new Shows();
+            this.collection.on('sync', this.render, this);
+            this.collection.fetch();
+          },
+          render: function() {
+            this.$el.html('');
+            var that = this;
+            app.shows = this.collection.models;
+            for (var i = 0; i < app.shows.length; i++) {
+              console.log(app.shows[i]);
+              app.show = new ShowView({
+                model: app.shows[i],
+                el: that.el
+              })
+            }
+          }
+        });
+
+        var ShowView = Backbone.View.extend({
+          initialize: function() {
+            console.log('init showview')
+            this.template = _.template($('#show-list-template').html());
+            var data = this.model.attributes;
+            var venueList = this.venueNames;
+            this.render();
+          },
+          render: function() {
+            console.log('rendering show');
+            data = this.model.attributes;
+            this.$el.append(this.template(data))
+          }
+        })

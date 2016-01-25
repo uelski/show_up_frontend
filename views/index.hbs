@@ -11,12 +11,8 @@
         <div class="card-content black-text">
           <span class="card-title">Title: <%= title %></span>
           <p><%= date %></p>
-          <% var vid = venue_id %>
-          <% _.each('venues', function(venue){ %>
-            <% if (venue.get('id') == vid) { %>
-              <p><%= venue.get('venue_name') %></p>
-              <% } %>
-            <% }); %>
+          <p><%= venue_name %><p>
+
         </div>
       </div>
     </div>
