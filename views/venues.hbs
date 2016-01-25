@@ -1,0 +1,29 @@
+<div class="venue-listing">
+
+</div>
+
+<script type="text/template"id="venue-list-template">
+  <div class="row #ff5252 red accent-2">
+    <div class="col s12">
+      <div class="card #ff5252 red accent-2">
+        <div class="card-content black-text">
+          <span class="card-title">Venue: <%= venue_name %></span>
+          <p>Address: <%= address %></p>
+          <p>Website: <%= venue_website %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/template" id="new-venue-template">
+  <form class="new-venue-form">
+    <label>Name</label>
+    <input name="venue_name" type="text"></input>
+    <label>Address</label>
+    <input name="address" type="text">
+    <label>Website</label>
+    <input name='venue_website' type="text"></input>
+    <button type="submit">Submit</button>
+  </form>
+</script>

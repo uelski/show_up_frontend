@@ -10,4 +10,12 @@ router.get('/new', function(req, res, next) {
   res.render('index', { title: 'Show Up' });
 });
 
+router.get('/venues', function(req, res, next) {
+  res.render('venues')
+})
+
+router.get('/venues/new', function(req, res, next) {
+  res.render('venues')
+})
+
 module.exports = router;
