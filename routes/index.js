@@ -6,6 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.get('/show/:id', function(req, res, next) {
+  res.render('show');
+})
+
 router.get('/new', function(req, res, next) {
   res.render('index', { title: 'Show Up' });
 });

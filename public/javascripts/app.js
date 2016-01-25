@@ -212,7 +212,8 @@ app.Router = Backbone.Router.extend({
     'bands':'bands',
     'bands/new':'newband',
     'venues':'venues',
-    'venues/new':'newvenue'
+    'venues/new':'newvenue',
+    'show/:id' :'showview'
       }
     });
 
@@ -269,6 +270,15 @@ $(document).ready(function() {
           app.myRouter.on('route:newvenue', function() {
             app.newVenueVuew = new app.NewVenueView();
             app.newVenueVuew.render();
+          })
+
+          app.myRouter.on('route:showview', function() {
+            var location = window.location.pathname;
+            var sid = location.replace('/show/', '');
+            console.log(sid);
+            var showModel = new app.Show({id: sid});
+            showModel.fetch();
+            var showView = new ShowView({el: $('.show-info'), model: showModel});
           })
 
 

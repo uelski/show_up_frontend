@@ -1,0 +1,46 @@
+<h1>Welcome</h1>
+
+<div class="show-info">
+
+</div>
+
+<div class="show-bands">
+
+</div>
+
+<script type="text/template" id="show-header">
+  <div>Title: <%= title %></div>
+  <p><%= date %></p>
+  <a href='/venues/<%= venue_id %>'><%= venue_name %></a>
+</script>
+
+<script type="text/template" id="show-body">
+
+</script>
+
+<script type="text/javascript">
+
+
+
+var ShowView = Backbone.View.extend({
+  initialize: function() {
+    console.log(this.model);
+    this.model.on('sync', this.render, this)
+  },
+  render: function() {
+    var options = {
+      id: this.model.id
+    }
+    this.template = _.template($('#show-header').html());
+    var data = this.model.attributes;
+    console.log(data);
+    this.$el.html(this.template(data));
+  }
+})
+
+
+
+
+
+
+</script>
