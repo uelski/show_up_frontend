@@ -166,7 +166,6 @@ app.ShowBandView = Backbone.View.extend({
 app.ShowList = Backbone.View.extend({
   el: '.listing',
   initialize: function() {
-    console.log('initialize shows');
     this.collection = new app.Shows();
     this.collection.on('sync', this.render, this);
     this.collection.fetch();
@@ -176,7 +175,6 @@ render: function() {
     var that = this;
     app.shows = this.collection.models;
     for (var i = 0; i < app.shows.length; i++) {
-      console.log(app.shows[i]);
       app.show = new app.ShowView({
         model: app.shows[i],
         el: that.el
@@ -187,13 +185,11 @@ render: function() {
 
 app.ShowView = Backbone.View.extend({
   initialize: function() {
-    console.log('init showview')
     this.template = _.template($('#show-list-template').html());
     var data = this.model.attributes;
     this.render();
   },
   render: function() {
-    console.log('rendering show');
     data = this.model.attributes;
     this.$el.append(this.template(data))
   }
@@ -368,27 +364,45 @@ $.fn.serializeObject = function() {
       return o;
     };
 
+function bandSearch() {
+  var bandName = $('#band-search').val();
+  console.log(bandName);
+  var bandId = 0;
+  var bands = new app.Bands();
+  bands.fetch({
+    success: function(bands) {
+      console.log(bands);
+      app.findBand = bands.where({band_name: bandName})
+      console.log(app.findBand);
+      bandId = app.findBand[0].id;
+      console.log(bandId);
+      $("#b-search-link").prop('href', '/bands/' + bandId);
+    }
+
+  });
+
+}
+
+
+function venueSearch() {
+
+}
 
 
 $(document).ready(function() {
 
-
-
           app.myRouter = new app.Router();
           app.myRouter.on('route:home', function(){
-            console.log('router working')
+
             var showList = new app.ShowList();
-            console.log('showlist render?');
           });
 
           app.myRouter.on('route:new', function(){
-            console.log('new show');
             app.newShowView = new app.NewShowView();
             app.newShowView.render();
           })
 
           app.myRouter.on('route:bands', function(){
-            console.log('bands');
             app.bandList = new app.BandList();
           })
 
@@ -398,7 +412,6 @@ $(document).ready(function() {
           })
 
           app.myRouter.on('route:venues', function() {
-            console.log('venues');
             app.venueList = new app.VenueList();
           })
 
@@ -466,7 +479,11 @@ $(document).ready(function() {
             $( "#fourth-band-name" ).autocomplete({
               source: bandSearchList
             });
+            $('#band-search').autocomplete({
+              source: bandSearchList,
+              change: function(event, ui) {bandSearch()}
           });
+        });
 
 
           $(function() {
@@ -483,6 +500,9 @@ $(document).ready(function() {
 
 
             $( "#new-show-venue" ).autocomplete({
+              source: venueSearchList
+            });
+            $('#venue-search').autocomplete({
               source: venueSearchList
             });
           });
