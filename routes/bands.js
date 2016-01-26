@@ -20,4 +20,8 @@ router.get('/:id', function(req, res, next){
   res.render('profile')
 })
 
+router.get('/edit/:id', function(req, res, next) {
+  res.render('profile')
+})
+
 module.exports = router;

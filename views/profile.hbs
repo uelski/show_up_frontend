@@ -18,6 +18,18 @@
   <a href='/venues/<%= venue_id %>'><%= venue_name %></a>
 </script>
 
+<script type="text/template" id="edit-band-template">
+  <form class="edit-band-form">
+    <label>Edit Email</label>
+    <input name="email" type="email">
+    <label>Edit Website</label>
+    <input name='band_website' type="text"></input>
+    <label>Photo</label>
+    <input name="photo_link" type="text">
+    <button id"edit-band-form" type="submit">Submit</button>
+  </form>
+</script>
+
 <script type="text/javascript">
 
 app.BandShowView = Backbone.View.extend({
@@ -33,6 +45,37 @@ app.BandShowView = Backbone.View.extend({
     var data = this.model.attributes;
     console.log(data);
     this.$el.html(this.template(data));
+  }
+})
+
+app.EditBandView = Backbone.View.extend({
+  el: '.band-shows',
+  events: {
+    'submit .edit-band-form' : 'updateBand'
+  },
+  updateBand: function(event) {
+    var bandDetails = $(event.currentTarget).serializeObject();
+    var editBand = this.band;
+    editBand.save(bandDetails, {
+      success: function(band) {
+        console.log('saving updated band');
+        app.myRouter.navigate('', {trigger: true});
+      }
+    })
+  },
+  render: function(options) {
+    console.log('rendering edit band');
+    var that =  this;
+    if(options.id) {
+      that.band = new app.Band({id: options.id});
+      that.band.fetch({
+        success: function(band) {
+          console.log('fetched band');
+          var template = _.template($('#edit-band-template').html());
+          that.$el.html(template({band: band}));
+        }
+      })
+    }
   }
 })
 

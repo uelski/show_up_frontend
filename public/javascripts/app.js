@@ -344,7 +344,9 @@ app.Router = Backbone.Router.extend({
     'venues/new':'newvenue',
     'show/:id' :'showview',
     'bands/:id' : 'bandview',
-    'venue/:id' : 'venueview'
+    'venue/:id' : 'venueview',
+    'bands/edit/:id' : 'bandedit',
+    'venue/edit/:id' : 'venuedit'
       }
     });
 
@@ -461,6 +463,16 @@ $(document).ready(function() {
             var venueShowsView = new app.VenueShowsView();
           })
 
+          app.myRouter.on('route:bandedit', function(){
+            var location = window.location.pathname;
+            var bid = location.replace('/bands/edit/', '');
+            console.log(bid);
+            var bandModel = new app.Band({id: bid});
+            bandModel.fetch();
+            var bandView = new app.BandShowView({el: $('.band-info'), model: bandModel});
+            var editBandView = new app.EditBandView();
+            editBandView.render({id: bid})
+          })
 
 
           Backbone.history.start({pushState: true});
