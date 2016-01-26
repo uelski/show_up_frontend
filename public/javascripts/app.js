@@ -9,7 +9,7 @@ app.Bands = Backbone.Collection.extend({
 })
 
 app.Band = Backbone.Model.extend({
-  url: '/bands'
+  urlRoot: '/bands'
 })
 
 app.Shows = Backbone.Collection.extend({
@@ -28,6 +28,140 @@ app.Venues = Backbone.Collection.extend({
 app.Venue = Backbone.Model.extend({
   urlRoot: '/venues'
 })
+
+app.ShowBands = Backbone.Collection.extend({
+  initialize: function(prop) {
+    this.url = prop.url;
+  }
+})
+
+app.BandShows = Backbone.Collection.extend({
+  initialize: function(prop) {
+    this.url = prop.url;
+  }
+})
+
+app.VenueShows = Backbone.Collection.extend({
+  initialize: function(prop) {
+    this.url = prop.url
+  }
+})
+
+app.VenueShowsView = Backbone.View.extend({
+  el: '.venue-shows',
+  initialize: function() {
+    var location = window.location.pathname;
+    var vid = location.replace('/venue/', '');
+    var vurl = '/venue_shows/' + vid
+    console.log(vurl);
+    this.collection = new app.VenueShows({url: vurl});
+    this.collection.on('sync', this.render, this);
+    this.collection.fetch();
+    console.log(this.collection);
+  },
+  render: function() {
+    this.$el.html('');
+    var that = this;
+    var shows = this.collection.models;
+    console.log(shows);
+    for (var i = 0; i < shows.length; i++) {
+      app.venueshow = new app.VenueShowView({
+        model: shows[i],
+        el: that.el
+      })
+    }
+  }
+})
+
+app.VenueShowView = Backbone.View.extend({
+  initialize: function() {
+    this.template = _.template($('#venue-body').html());
+    var data = this.model.attributes;
+    this.render();
+  },
+  render: function() {
+    data = this.model.attributes;
+    this.$el.append(this.template(data))
+  }
+})
+
+app.BandsShowsView = Backbone.View.extend({
+  el: '.band-shows',
+  initialize: function() {
+    var location = window.location.pathname;
+    var bid = location.replace('/bands/', '');
+    var burl = '/band_shows/' + bid
+    console.log(burl);
+    this.collection = new app.BandShows({url: burl});
+    this.collection.on('sync', this.render, this);
+    this.collection.fetch();
+    console.log(this.collection);
+  },
+  render: function() {
+    this.$el.html('');
+    var that = this;
+    var shows = this.collection.models;
+    console.log(shows);
+    for (var i = 0; i < shows.length; i++) {
+      app.bandshow = new app.BandShowsView({
+        model: shows[i],
+        el: that.el
+      })
+    }
+  }
+})
+
+app.BandShowsView = Backbone.View.extend({
+  initialize: function() {
+    this.template = _.template($('#band-body').html());
+    var data = this.model.attributes;
+    this.render();
+  },
+  render: function() {
+    data = this.model.attributes;
+    this.$el.append(this.template(data))
+  }
+})
+
+app.ShowBandsView = Backbone.View.extend({
+  el: '.show-bands',
+  initialize: function() {
+    var location = window.location.pathname;
+    var sid = location.replace('/show/', '');
+    var surl = '/show_bands/' + sid
+    console.log(surl);
+    this.collection = new app.ShowBands({url: surl});
+    this.collection.on('sync', this.render, this);
+    this.collection.fetch();
+    console.log(this.collection);
+  },
+  render: function() {
+    this.$el.html('');
+    var that = this;
+    var bands = this.collection.models;
+    console.log(bands);
+    for (var i = 0; i < bands.length; i++) {
+      app.showband = new app.ShowBandView({
+        model: bands[i],
+        el: that.el
+      })
+    }
+  }
+})
+
+app.ShowBandView = Backbone.View.extend({
+  initialize: function() {
+    this.template = _.template($('#show-body').html());
+    var data = this.model.attributes;
+    this.render();
+  },
+  render: function() {
+    data = this.model.attributes;
+    this.$el.append(this.template(data))
+  }
+})
+
+
 
 app.ShowList = Backbone.View.extend({
   el: '.listing',
@@ -56,7 +190,6 @@ app.ShowView = Backbone.View.extend({
     console.log('init showview')
     this.template = _.template($('#show-list-template').html());
     var data = this.model.attributes;
-    var venueList = this.venueNames;
     this.render();
   },
   render: function() {
@@ -213,7 +346,9 @@ app.Router = Backbone.Router.extend({
     'bands/new':'newband',
     'venues':'venues',
     'venues/new':'newvenue',
-    'show/:id' :'showview'
+    'show/:id' :'showview',
+    'bands/:id' : 'bandview',
+    'venue/:id' : 'venueview'
       }
     });
 
@@ -279,6 +414,27 @@ $(document).ready(function() {
             var showModel = new app.Show({id: sid});
             showModel.fetch();
             var showView = new ShowView({el: $('.show-info'), model: showModel});
+            var showBandsView = new app.ShowBandsView();
+          })
+
+          app.myRouter.on('route:bandview', function() {
+            var location = window.location.pathname;
+            var bid = location.replace('/bands/', '');
+            console.log(bid);
+            var bandModel = new app.Band({id: bid});
+            bandModel.fetch();
+            var bandView = new app.BandShowView({el: $('.band-info'), model: bandModel});
+            var bandsShowsView =  new app.BandsShowsView();
+          })
+
+          app.myRouter.on('route:venueview', function() {
+            var location = window.location.pathname;
+            var vid = location.replace('/venue/', '');
+            console.log(vid);
+            var venueModel = new app.Venue({id: vid});
+            venueModel.fetch();
+            var venueView = new app.VenueView({el: $('.venue-info'), model: venueModel})
+            var venueShowsView = new app.VenueShowsView();
           })
 
 

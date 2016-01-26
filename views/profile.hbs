@@ -1,4 +1,4 @@
-<!-- <div class="band-info">
+<div class="band-info">
 
 </div>
 
@@ -13,10 +13,27 @@
 </script>
 
 <script type="text/template" id="band-body">
-
+  <div>Title: <%= title %></div>
+  <p><%= date %></p>
+  <a href='/venues/<%= venue_id %>'><%= venue_name %></a>
 </script>
 
 <script type="text/javascript">
 
+app.BandShowView = Backbone.View.extend({
+  initialize: function() {
+    console.log(this.model);
+    this.model.on('sync', this.render, this)
+  },
+  render: function() {
+    var options = {
+      id: this.model.id
+    }
+    this.template = _.template($('#band-header').html());
+    var data = this.model.attributes;
+    console.log(data);
+    this.$el.html(this.template(data));
+  }
+})
 
-</script> -->
+</script>

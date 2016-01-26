@@ -22,4 +22,8 @@ router.get('/venues/new', function(req, res, next) {
   res.render('venues')
 })
 
+router.get('/venue/:id', function(req, res, next) {
+  res.render('venue')
+})
+
 module.exports = router;

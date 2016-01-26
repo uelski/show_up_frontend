@@ -1,4 +1,4 @@
-<!-- <div class="venue-info">
+<div class="venue-info">
 
 </div>
 
@@ -13,9 +13,25 @@
 </script>
 
 <script type="text/template" id="venue-body">
-
+  <div>Title: <%= title %></div>
+  <p><%= date %></p>
 </script>
 
 <script type="text/javascript">
 
-</script> -->
+app.VenueView = Backbone.View.extend({
+  initialize: function() {
+    console.log(this.model);
+    this.model.on('sync', this.render, this)
+  },
+  render: function() {
+    var options = {
+      id: this.model.id
+    }
+    this.template = _.template($('#venue-header').html());
+    var data = this.model.attributes;
+    console.log(data);
+    this.$el.html(this.template(data));
+  }
+})
+</script>
