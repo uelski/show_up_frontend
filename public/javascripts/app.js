@@ -378,14 +378,25 @@ function bandSearch() {
       console.log(bandId);
       $("#b-search-link").prop('href', '/bands/' + bandId);
     }
-
   });
-
 }
 
 
 function venueSearch() {
-
+  var venueName = $('#venue-search').val();
+  console.log(venueName);
+  var venueId = 0;
+  var venues = new app.Venues();
+  venues.fetch({
+    success: function(venues) {
+      console.log(venues);
+      app.findVenue = venues.where({venue_name: venueName})
+      console.log(app.findVenue);
+      venueId = app.findVenue[0].id;
+      console.log(venueId);
+      $("#v-search-link").prop('href', '/venue/' + venueId);
+    }
+  });
 }
 
 
@@ -503,7 +514,8 @@ $(document).ready(function() {
               source: venueSearchList
             });
             $('#venue-search').autocomplete({
-              source: venueSearchList
+              source: venueSearchList,
+              change: function(event, ui) {venueSearch()}
             });
           });
 
