@@ -4,6 +4,9 @@ $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
     options.url = 'http://localhost:3000' + options.url;
   });
 
+app.Session = {};
+
+
 app.Bands = Backbone.Collection.extend({
   url: '/bands'
 })
