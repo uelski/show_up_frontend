@@ -334,6 +334,41 @@ app.NewShowView = Backbone.View.extend({
   }
 })
 
+app.EditBandView = Backbone.View.extend({
+  el: '.band-shows',
+  events: {
+    'submit .edit-band-form' : 'updateBand'
+  },
+  initialize: function() {
+    this.template = _.template($('#edit-band-template').html());
+  },
+  updateBand: function(event) {
+    var location = window.location.pathname;
+    var bid = location.replace('/bands/edit/', '');
+    var bandDetails = $(event.currentTarget).serializeObject();
+    console.log(bandDetails);
+    this.band.save(bandDetails, {
+      success: function(band) {
+        console.log('saving updated band');
+        app.myRouter.navigate('bands/'+ bid, {trigger: true});
+      }
+    });
+    return false
+  },
+  render: function(options) {
+    console.log('rendering edit band');
+    var that =  this;
+      this.band = new app.Band({id: options.id});
+      this.band.fetch({
+        success: function(band) {
+          console.log('fetched band');
+        }
+      })
+
+      this.$el.html(this.template);
+  }
+})
+
 app.Router = Backbone.Router.extend({
   routes: {
     '': 'home',

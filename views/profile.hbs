@@ -48,35 +48,6 @@ app.BandShowView = Backbone.View.extend({
   }
 })
 
-app.EditBandView = Backbone.View.extend({
-  el: '.band-shows',
-  events: {
-    'submit .edit-band-form' : 'updateBand'
-  },
-  updateBand: function(event) {
-    var bandDetails = $(event.currentTarget).serializeObject();
-    var editBand = this.band;
-    editBand.save(bandDetails, {
-      success: function(band) {
-        console.log('saving updated band');
-        app.myRouter.navigate('', {trigger: true});
-      }
-    })
-  },
-  render: function(options) {
-    console.log('rendering edit band');
-    var that =  this;
-    if(options.id) {
-      that.band = new app.Band({id: options.id});
-      that.band.fetch({
-        success: function(band) {
-          console.log('fetched band');
-          var template = _.template($('#edit-band-template').html());
-          that.$el.html(template({band: band}));
-        }
-      })
-    }
-  }
-})
+
 
 </script>
