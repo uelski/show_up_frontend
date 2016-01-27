@@ -369,6 +369,41 @@ app.EditBandView = Backbone.View.extend({
   }
 })
 
+app.EditVenueView = Backbone.View.extend({
+  el: '.venue-shows',
+  events: {
+    'submit .edit-venue-form' : 'updateVenue'
+  },
+  initialize: function() {
+    this.template = _.template($('#edit-venue-template').html());
+  },
+  updateVenue: function(event) {
+    var location = window.location.pathname;
+    var vid = location.replace('/venue/edit/', '');
+    var venueDetails = $(event.currentTarget).serializeObject();
+    console.log(venueDetails);
+    this.venue.save(venueDetails, {
+      success: function(venue) {
+        console.log('saving updated venue');
+        app.myRouter.navigate('venue/'+ vid, {trigger: true});
+      }
+    });
+    return false
+  },
+  render: function(options) {
+    console.log('rendering edit venue');
+    var that =  this;
+      this.venue = new app.Venue({id: options.id});
+      this.venue.fetch({
+        success: function(band) {
+          console.log('fetched venue');
+        }
+      })
+
+      this.$el.html(this.template);
+  }
+})
+
 app.Router = Backbone.Router.extend({
   routes: {
     '': 'home',
@@ -507,6 +542,17 @@ $(document).ready(function() {
             var bandView = new app.BandShowView({el: $('.band-info'), model: bandModel});
             var editBandView = new app.EditBandView();
             editBandView.render({id: bid})
+          })
+
+          app.myRouter.on('route:venuedit', function() {
+            var location = window.location.pathname;
+            var vid = location.replace('/venue/edit/', '');
+            console.log(vid);
+            var venueModel = new app.Venue({id: vid});
+            venueModel.fetch();
+            var venueView = new app.VenueView({el: $('.venue-info'), model: venueModel});
+            var editVenueView = new app.EditVenueView();
+            editVenueView.render({id: vid})
           })
 
 

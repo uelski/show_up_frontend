@@ -26,4 +26,8 @@ router.get('/venue/:id', function(req, res, next) {
   res.render('venue')
 })
 
+router.get('/venue/edit/:id', function(req, res, next) {
+  res.render('venue')
+});
+
 module.exports = router;

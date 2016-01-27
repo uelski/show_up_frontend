@@ -17,6 +17,16 @@
   <p><%= date %></p>
 </script>
 
+<script type="text/template" id="edit-venue-template">
+  <form class="edit-venue-form">
+    <label>Address</label>
+    <input name="address" type="text">
+    <label>Website</label>
+    <input name='venue_website' type="text"></input>
+    <button type="submit">Submit</button>
+  </form>
+</script>
+
 <script type="text/javascript">
 
 app.VenueView = Backbone.View.extend({
