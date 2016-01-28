@@ -15,13 +15,39 @@
     <script type="text/javascript" src="/javascripts/app.js"></script>
   </head>
   <body>
-    <div class="row">
-      <div class="col s12 #ff5252 red accent-2">
-        <h3 class="logo left align">Show Up</h3>
-      </div>
+
+    <nav>
+    <div class="nav-wrapper #ff5252 red accent-2">
+      <a href="/" class="logo"><img id="logo-img" src="http://i.imgur.com/SsbEvcZ.png" alt="Show Up" /></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a class="modal-trigger" href="#search-modal"><i class="material-icons">search</i></a></li>
+        <li><a href="/new"><i class="material-icons">library_add</i></a></li>
+        <li><a href="/bands/new"><i class="material-icons">perm_identity</i></a></li>
+        <li><a class="dropdown-button" data-activates='view-all-dropdown'><i class="material-icons">surround_sound</i></a></li>
+      </ul>
     </div>
+  </nav>
+
+  <div id="search-modal" class="modal">
+    <div class="input-field">
+      <label>Search by Venue</label>
+      <input  id="venue-search" name="venue_name" type="text" >
+      <a id="v-search-link" href="" ><button id="venue-submit" type="submit"><i class="material-icons">search</i></button></a>
+    </div>
+    <div class="input-field">
+      <label>Search by Band</label>
+      <input id="band-search" name="venue_name" type="text">
+      <a id="b-search-link" href="" ><button id="band-submit" type="submit"><i class="material-icons">search</i></button></a>
+    </div>
+  </div>
+
+  <ul id="view-all-dropdown" class="dropdown-content">
+    <li><a href="/venues">All Venues</a></li>
+    <li><a href="/bands">All Bands</a></li>
+  </ul>
+
     <div class="container">
-      
+
     {{{body}}}
 
     </div>

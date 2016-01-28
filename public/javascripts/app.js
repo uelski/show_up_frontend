@@ -587,6 +587,7 @@ $(document).ready(function() {
               source: bandSearchList
             });
             $('#band-search').autocomplete({
+              appendTo: ".input-field",
               source: bandSearchList,
               change: function(event, ui) {bandSearch()}
           });
@@ -610,9 +611,14 @@ $(document).ready(function() {
               source: venueSearchList
             });
             $('#venue-search').autocomplete({
+              appendTo: ".input-field",
               source: venueSearchList,
               change: function(event, ui) {venueSearch()}
             });
           });
+
+    $('.materialboxed').materialbox();
+
+     $('.modal-trigger').leanModal();
 
 });// end of document.ready
