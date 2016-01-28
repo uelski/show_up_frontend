@@ -4,8 +4,97 @@ $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
     options.url = 'http://localhost:3000' + options.url;
   });
 
-app.Session = {};
+  // Store "old" sync function
+// var backboneSync = Backbone.sync;
+//
+// // Now override
+// Backbone.sync = function (method, model, options) {
+//
+//   /*
+//    * "options" represents the options passed to the underlying $.ajax call
+//    */
+//   var token = localStorage.getItem('authToken');
+//
+//   if (token) {
+//     options.headers = {
+//       'x-access-token': token
+//     }
+//   }
+//
+//   // call the original function
+//   backboneSync(method, model, options);
+// };
 
+function loginSubmit() {
+  $('#signin-submit').click(function(e) {
+    e.preventDefault();
+    console.log('signin');
+    $.ajax({
+      type:'POST',
+      url: '/authenticate',
+      data: {
+        band_name: $('#signin-name').val(),
+        password: $('#signin-password').val()
+      },
+      success: function(response) {
+        console.log('click');
+        console.log(response.band.id);
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('authToken', response.auth_token);
+        localStorage.setItem('bandid', response.band.id);
+        localStorage.setItem('bandName', response.band.band_name);
+        location.href = '/bands/' + bandId;
+      },
+      error: function(err){
+        console.log(err)
+      }
+
+    })
+  })
+}
+
+function registerSubmit() {
+  $('#band-register').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/create',
+      type:'POST',
+      data: {
+        band_name: $('#register-name').val(),
+        email: $('#register-email').val(),
+        password: $('#register-password').val(),
+        password_confirmation: $('#register-password-confirm').val(),
+        band_website: $('#register-website').val(),
+        photo_link: $('#register-photo').val()
+      },
+      success: function(response) {
+        console.log(response);
+        window.localStorage.setItem('loggedIn', 'true');
+        window.localStorage.setItem('authToken', response.auth_token);
+        window.localStorage.setItem('bandid', response.band.id);
+        window.localStorage.setItem('bandName', response.band.band_name);
+        location.href = '/welcome';
+      },
+      error: function(err){
+        console.log(err)
+      }
+
+    })
+  })
+}
+
+var band = window.localStorage.getItem('bandName');
+var bandId = window.localStorage.getItem('bandid');
+
+var token = window.localStorage.getItem('authToken');
+
+if (token) {
+  $.ajaxSetup({
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+    }
+  })
+}
 
 app.Bands = Backbone.Collection.extend({
   url: '/bands'
@@ -294,19 +383,6 @@ app.NewVenueView = Backbone.View.extend({
 
 app.NewBandView = Backbone.View.extend({
   el: '.band-listing',
-  events: {
-    'submit .new-band-form': 'saveBand'
-  },
-  saveBand: function(event) {
-    var bandDetails = $(event.currentTarget).serializeObject();
-    var band = new app.Band();
-    band.save(bandDetails, {
-      success: function(band) {
-        app.myRouter.navigate('bands', {trigger: true});
-      }
-    });
-    return false;
-  },
   render: function(options) {
     var that = this;
     var template = _.template($('#new-band-template').html());
@@ -616,6 +692,14 @@ $(document).ready(function() {
               change: function(event, ui) {venueSearch()}
             });
           });
+
+    $('#logout').click(function(){
+      localStorage.clear();
+    })
+
+    loginSubmit();
+
+    registerSubmit();
 
     $('.materialboxed').materialbox();
 

@@ -38,4 +38,9 @@ router.get('/not_authorized', function(req, res, next) {
   res.render('not_authorized')
 })
 
+router.get('/welcome', function(req, res, next) {
+
+  res.render('welcome')
+})
+
 module.exports = router;
