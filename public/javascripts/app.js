@@ -1,7 +1,7 @@
 var app = app || {};
 
 $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-    options.url = 'http://162.243.46.169' + options.url;
+    options.url = '//162.243.46.169' + options.url;
   });
 
   // Store "old" sync function
