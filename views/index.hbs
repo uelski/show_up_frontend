@@ -1,4 +1,4 @@
-<h2 class="blue-header">Upcoming Shows</h2>
+<h2 id="show-header" class="blue-header">Upcoming Shows</h2>
 
 <div class="listing">
 
@@ -26,21 +26,35 @@
 </script>
 <script type="text/template" id="new-show-template">
   <form class="new-show-form">
-    <label>Title</label>
-    <input name="title" type="text">
-    <label>Date</label>
-    <input name="date" type="date">
-    <label>First Band</label>
-    <input id="first-band-name" name="first_band" type="text">
-    <label>Second Band</label>
-    <input id="second-band-name" name="second_band" type="text">
-    <label>Third Band</label>
-    <input id="third-band-name" name="third_band" type="text">
-    <label>Fourth Band</label>
-    <input id="fourth-band-name" name="fourth_band" type="text">
-    <label>Venue</label>
-    <input id="new-show-venue" name="venue_name" type="text">
-    <input id="new-show-venue_id" name='venue_id' type="text" hidden="true">
-    <button type="submit">Submit</button>
+    <div class="input-field col s6">
+      <label>Title</label>
+      <input name="title" type="text">
+    </div>
+    <div class="input-field col s6">
+      <input name="date" type="date">
+    </div>
+    <div class="input-field col s6">
+      <label>First Band</label>
+      <input id="first-band-name" name="first_band" type="text">
+    </div>
+    <div class="input-field col s6">
+      <label>Second Band</label>
+      <input id="second-band-name" name="second_band" type="text">
+    </div>
+    <div class="input-field col s6">
+      <label>Third Band</label>
+      <input id="third-band-name" name="third_band" type="text">
+    </div>
+    <div class="input-field col s6">
+      <label>Fourth Band</label>
+      <input id="fourth-band-name" name="fourth_band" type="text">
+    </div>
+    <div class="input-field col s6">
+      <label>Venue</label>
+      <input id="new-show-venue" name="venue_name" type="text">
+    </div>
+    <div class="input-field col s6">
+      <button class="waves-effect waves-light btn" type="submit">Submit</button>
+    </div>
   </form>
 </script>

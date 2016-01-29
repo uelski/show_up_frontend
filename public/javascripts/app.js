@@ -560,6 +560,7 @@ $(document).ready(function() {
           });
 
           app.myRouter.on('route:new', function(){
+            $('#show-header').hide();
             app.newShowView = new app.NewShowView();
             app.newShowView.render();
           })
@@ -569,6 +570,7 @@ $(document).ready(function() {
           })
 
           app.myRouter.on('route:newband', function() {
+            $('#bands-header').hide();
             app.newBandView = new app.NewBandView();
             app.newBandView.render();
           })
@@ -704,5 +706,9 @@ $(document).ready(function() {
     $('.materialboxed').materialbox();
 
      $('.modal-trigger').leanModal();
+
+
+
+
 
 });// end of document.ready
