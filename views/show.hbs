@@ -1,17 +1,31 @@
-<h1>Welcome</h1>
 
 <div class="show-info">
 
 </div>
+<h2 class="blue-header">Line Up</h2>
 
 <div class="show-bands">
 
 </div>
 
 <script type="text/template" id="show-header">
-  <div>Title: <%= title %></div>
-  <p><%= date %></p>
-  <a href='/venues/<%= venue_id %>'><%= venue_name %></a>
+  <h1 class="blue-header"><%= title %></h1>
+  <div class="row">
+        <div class="col s5">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title"><a href='/venue/<%= venue_id %>'><%= venue_name %></a></span>
+              <p><%= date %></p>
+
+            </div>
+          </div>
+        </div>
+        <div id="showpage-poster" class="col s4">
+          <img class="materialboxed responsive-img initialized" width="650" src="http://i.imgur.com/B3nAM6x.jpg?1">
+          <!-- <img src="<%= poster_link %>"> -->
+        </div>
+      </div>
+
 </script>
 
 <script type="text/template" id="show-body">

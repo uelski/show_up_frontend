@@ -3,6 +3,7 @@
   <head>
     <title>{{title}}</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -22,8 +23,8 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a class="modal-trigger" href="#search-modal"><i class="material-icons">search</i></a></li>
         <li><a href="/new"><i class="material-icons">library_add</i></a></li>
-        <li><a href="/bands/new"><i class="material-icons">perm_identity</i></a></li>
-        <li><a class="dropdown-button" data-activates='view-all-dropdown'><i class="material-icons">surround_sound</i></a></li>
+        <li><a class="dropdown-button" data-activates='user-dropdown'><i class="material-icons">perm_identity</i></a></li>
+        <li><a class="dropdown-button" data-activates='view-all-dropdown'><i class="material-icons">list</i></a></li>
       </ul>
     </div>
   </nav>
@@ -45,7 +46,13 @@
     <li><a href="/venues">All Venues</a></li>
     <li><a href="/bands">All Bands</a></li>
   </ul>
-<a href="/"><button id="logout" type="button" name="button">Logout</button></a>
+
+  <ul id="user-dropdown" class='dropdown-content'>
+    <li><a href="/bands/new">Register</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/" id="logout">Logout</a></li>
+  </ul>
+
     <div class="container">
 
     {{{body}}}

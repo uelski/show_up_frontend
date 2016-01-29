@@ -1,3 +1,6 @@
+@serif: 'Roboto Slab', serif;
+@sans-serif: 'Montserrat', sans-serif;
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -9,7 +12,7 @@ a {
 }
 
 .logo {
-  font-family: 'Montserrat', sans-serif;
+  font-family: @sans-serif;
   padding: 1%;
   color: black;
   font-size: 25px;
@@ -28,11 +31,13 @@ a {
 }
 
 .blue-header {
-  color: #2c6b7e;
+  color: #bcc1c3;
+  font-family: @serif;
 }
 
-.venue-listing {
-  font-size: 20px;
+.venue_listing {
+  font-size: 25px;
+  font-family: @serif;
 }
 
 .card a {
@@ -40,20 +45,28 @@ a {
   text-decoration: none;
 }
 
-// .card-image {
-//   width: 200px;
-//   height: 300px;
-// }
 
-.card-image img {
+#main-listing .card-image img {
   max-width: 100%;
   height: auto;
 }
 
-.card-title {
+.card .card-title {
+  font-size: 40px;
   font-weight: bold;
+  font-family: @sans-serif;
 }
 
 .nav {
   background-color: #ff5252;
+}
+
+#showpage-poster {
+  height: 600px;
+  width: 400px;
+}
+
+#showpage-poster img {
+  width: 100%;
+  height: auto;
 }

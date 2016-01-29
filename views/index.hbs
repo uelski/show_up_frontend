@@ -1,15 +1,19 @@
+<h2 class="blue-header">Upcoming Shows</h2>
 
-
-<div class="row listing">
+<div class="listing">
 
 </div>
 
 <script type="text/template" id="show-list-template">
-  <!-- <div class="row"> -->
-    <div class="col s6">
-      <div class="card z-depth-3">
+  <div class="row">
+    <div id="main-listing" class="col s10">
+      <div class="card large z-depth-3">
         <div class="card-image valign-wrapper">
-          <img src="http://i.imgur.com/HJ6lZg6.jpg">
+          <% if (poster_link != null) {%>
+          <img src="<%= poster_link %>"
+         <% } else { %>
+          <img src="http://i.imgur.com/B3nAM6x.jpg?1">
+          <% } %>
           </div>
           <div class="card-content  #ff5252 red accent-2 black-text">
             <a href='/show/<%= id %>'><h2 class="card-title"><%= title %></h2></a>
@@ -18,7 +22,7 @@
           </div>
         </div>
       </div>
-    <!-- </div> -->
+    </div>
 </script>
 <script type="text/template" id="new-show-template">
   <form class="new-show-form">
