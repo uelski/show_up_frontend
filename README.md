@@ -7,7 +7,7 @@ The idea behind this app came from aggregating information on smaller, local and
 I utilized Backbone.js to bind to the API and render views styled with [Materialize](http://materializecss.com/).
 
 Technologies used:
-1. Node.js & NPM
+- Node.js & NPM
 2. Express.js
 3. Backbone.js
 2. Materialize
