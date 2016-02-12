@@ -26,18 +26,18 @@
       <div class="card large z-depth-3">
         <div class="card-image valign-wrapper">
           <% if (poster_link != null) {%>
-          <img src="<%= poster_link %>"
+          <img src="<%= poster_link %>">
          <% } else { %>
           <img src="http://i.imgur.com/B3nAM6x.jpg?1">
           <% } %>
-          </div>
-          <div class="card-content  #ff5252 red accent-2 black-text">
+        </div>
+        <div class="card-content  #ff5252 red accent-2 black-text">
             <a href='/show/<%= id %>'><h2 class="card-title"><%= title %></h2></a>
             <p><%= date %></p>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 </script>
 
 <script type="text/template" id="edit-venue-template">
