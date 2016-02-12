@@ -528,6 +528,7 @@ function bandSearch() {
       bandId = app.findBand[0].id;
       console.log(bandId);
       $("#b-search-link").prop('href', '/bands/' + bandId);
+      $("#band-submit").removeAttr('disabled');
     }
   });
 }
@@ -546,6 +547,7 @@ function venueSearch() {
       venueId = app.findVenue[0].id;
       console.log(venueId);
       $("#v-search-link").prop('href', '/venue/' + venueId);
+      $("#venue-submit").removeAttr('disabled');
     }
   });
 }
@@ -694,6 +696,8 @@ $(document).ready(function() {
               change: function(event, ui) {venueSearch()}
             });
           });
+
+
 
     $('#logout').click(function(){
       localStorage.clear();
