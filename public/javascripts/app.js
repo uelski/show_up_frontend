@@ -37,8 +37,6 @@ function loginSubmit() {
         password: $('#signin-password').val()
       },
       success: function(response) {
-        console.log('click');
-        console.log(response.band.id);
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('authToken', response.auth_token);
         localStorage.setItem('bandid', response.band.id);
@@ -46,7 +44,6 @@ function loginSubmit() {
         location.href = '/bands/' + bandId;
       },
       error: function(err){
-        console.log(err)
       }
 
     })
@@ -68,7 +65,6 @@ function registerSubmit() {
         photo_link: $('#register-photo').val()
       },
       success: function(response) {
-        console.log(response);
         window.localStorage.setItem('loggedIn', 'true');
         window.localStorage.setItem('authToken', response.auth_token);
         window.localStorage.setItem('bandid', response.band.id);
@@ -76,7 +72,6 @@ function registerSubmit() {
         location.href = '/welcome';
       },
       error: function(err){
-        console.log(err)
       }
 
     })
@@ -145,17 +140,14 @@ app.VenueShowsView = Backbone.View.extend({
     var location = window.location.pathname;
     var vid = location.replace('/venue/', '');
     var vurl = '/venue_shows/' + vid
-    console.log(vurl);
     this.collection = new app.VenueShows({url: vurl});
     this.collection.on('sync', this.render, this);
     this.collection.fetch();
-    console.log(this.collection);
   },
   render: function() {
     this.$el.html('');
     var that = this;
     var shows = this.collection.models;
-    console.log(shows);
     for (var i = 0; i < shows.length; i++) {
       app.venueshow = new app.VenueShowView({
         model: shows[i],
@@ -183,17 +175,14 @@ app.BandsShowsView = Backbone.View.extend({
     var location = window.location.pathname;
     var bid = location.replace('/bands/', '');
     var burl = '/band_shows/' + bid
-    console.log(burl);
     this.collection = new app.BandShows({url: burl});
     this.collection.on('sync', this.render, this);
     this.collection.fetch();
-    console.log(this.collection);
   },
   render: function() {
     this.$el.html('');
     var that = this;
     var shows = this.collection.models;
-    console.log(shows);
     for (var i = 0; i < shows.length; i++) {
       app.bandshow = new app.BandShowsView({
         model: shows[i],
@@ -221,17 +210,14 @@ app.ShowBandsView = Backbone.View.extend({
     var location = window.location.pathname;
     var sid = location.replace('/show/', '');
     var surl = '/show_bands/' + sid
-    console.log(surl);
     this.collection = new app.ShowBands({url: surl});
     this.collection.on('sync', this.render, this);
     this.collection.fetch();
-    console.log(this.collection);
   },
   render: function() {
     this.$el.html('');
     var that = this;
     var bands = this.collection.models;
-    console.log(bands);
     for (var i = 0; i < bands.length; i++) {
       app.showband = new app.ShowBandView({
         model: bands[i],
@@ -300,7 +286,6 @@ app.BandList = Backbone.View.extend({
     var that = this;
     bands = this.collection.models;
     for (var i = 0; i < bands.length; i++) {
-      console.log(bands[i]);
       app.band = new app.BandView({
         model: bands[i],
         el: that.el
@@ -336,7 +321,6 @@ app.VenueList = Backbone.View.extend({
     var that = this;
     venues = this.collection.models;
     for (var i = 0; i < venues.length; i++) {
-      console.log(venues[i]);
       app.venue = new app.VenueView({
         model: venues[i],
         el: that.el
@@ -425,7 +409,6 @@ app.EditBandView = Backbone.View.extend({
     var location = window.location.pathname;
     var bid = location.replace('/bands/edit/', '');
     var bandDetails = $(event.currentTarget).serializeObject();
-    console.log(bandDetails);
     this.band.save(bandDetails, {
       success: function(band) {
         console.log('saving updated band');
@@ -460,7 +443,6 @@ app.EditVenueView = Backbone.View.extend({
     var location = window.location.pathname;
     var vid = location.replace('/venue/edit/', '');
     var venueDetails = $(event.currentTarget).serializeObject();
-    console.log(venueDetails);
     this.venue.save(venueDetails, {
       success: function(venue) {
         console.log('saving updated venue');
@@ -517,16 +499,12 @@ $.fn.serializeObject = function() {
 
 function bandSearch() {
   var bandName = $('#band-search').val();
-  console.log(bandName);
   var bandId = 0;
   var bands = new app.Bands();
   bands.fetch({
     success: function(bands) {
-      console.log(bands);
       app.findBand = bands.where({band_name: bandName})
-      console.log(app.findBand);
       bandId = app.findBand[0].id;
-      console.log(bandId);
       $("#b-search-link").prop('href', '/bands/' + bandId);
       $("#band-submit").removeAttr('disabled');
     }
@@ -536,16 +514,12 @@ function bandSearch() {
 
 function venueSearch() {
   var venueName = $('#venue-search').val();
-  console.log(venueName);
   var venueId = 0;
   var venues = new app.Venues();
   venues.fetch({
     success: function(venues) {
-      console.log(venues);
       app.findVenue = venues.where({venue_name: venueName})
-      console.log(app.findVenue);
       venueId = app.findVenue[0].id;
-      console.log(venueId);
       $("#v-search-link").prop('href', '/venue/' + venueId);
       $("#venue-submit").removeAttr('disabled');
     }
@@ -589,7 +563,6 @@ $(document).ready(function() {
           app.myRouter.on('route:showview', function() {
             var location = window.location.pathname;
             var sid = location.replace('/show/', '');
-            console.log(sid);
             var showModel = new app.Show({id: sid});
             showModel.fetch();
             var showView = new ShowView({el: $('.show-info'), model: showModel});
@@ -599,7 +572,6 @@ $(document).ready(function() {
           app.myRouter.on('route:bandview', function() {
             var location = window.location.pathname;
             var bid = location.replace('/bands/', '');
-            console.log(bid);
             var bandModel = new app.Band({id: bid});
             bandModel.fetch();
             var bandView = new app.BandShowView({el: $('.band-info'), model: bandModel});
@@ -609,7 +581,6 @@ $(document).ready(function() {
           app.myRouter.on('route:venueview', function() {
             var location = window.location.pathname;
             var vid = location.replace('/venue/', '');
-            console.log(vid);
             var venueModel = new app.Venue({id: vid});
             venueModel.fetch();
             var venueView = new app.VenueView({el: $('.venue-info'), model: venueModel})
@@ -619,7 +590,6 @@ $(document).ready(function() {
           app.myRouter.on('route:bandedit', function(){
             var location = window.location.pathname;
             var bid = location.replace('/bands/edit/', '');
-            console.log(bid);
             var bandModel = new app.Band({id: bid});
             bandModel.fetch();
             var bandView = new app.BandShowView({el: $('.band-info'), model: bandModel});
@@ -630,7 +600,6 @@ $(document).ready(function() {
           app.myRouter.on('route:venuedit', function() {
             var location = window.location.pathname;
             var vid = location.replace('/venue/edit/', '');
-            console.log(vid);
             var venueModel = new app.Venue({id: vid});
             venueModel.fetch();
             var venueView = new app.VenueView({el: $('.venue-info'), model: venueModel});
