@@ -642,7 +642,6 @@ $(document).ready(function() {
           });
         });
 
-
           $(function() {
             var venues = new app.Venues();
             var venueSearchList = [];
